@@ -1,11 +1,13 @@
 # Email Assistant
 
-An AI-powered email assistant that automatically monitors and responds to emails using OpenAI's GPT model.
+An AI-powered email assistant that automatically monitors and responds to emails using either OpenAI's GPT model or a local LLM (like Llama) through LM Studio.
 
 ## Features
 
 - Continuous email monitoring
-- Automated AI-powered responses using GPT
+- Automated AI-powered responses using either:
+  - OpenAI's GPT model
+  - Local LLM through LM Studio
 - Whitelist system for allowed senders
 - Secure email handling with SSL support
 - Comprehensive logging system
@@ -14,7 +16,8 @@ An AI-powered email assistant that automatically monitors and responds to emails
 ## Prerequisites
 
 - Python 3.7+
-- A valid OpenAI API key
+- A valid OpenAI API key (if using OpenAI's model)
+- LM Studio running locally (if using local LLM)
 - An email account with IMAP/SMTP access
 
 ## Installation
@@ -36,12 +39,12 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-4. Create your configuration file:
+4. Configure your email settings:
 ```bash
 cp email_config.example.json email_config.json
 ```
 
-5. Edit `email_config.json` with your email and OpenAI credentials:
+5. Edit `email_config.json` with your email credentials:
 ```json
 {
     "email_address": "your-email@example.com",
@@ -62,6 +65,51 @@ cp email_config.example.json email_config.json
 }
 ```
 
+6. Set up your whitelist:
+```bash
+cp whitelist_config.example.json whitelist_config.json
+```
+
+7. Edit `whitelist_config.json` with allowed email addresses:
+```json
+{
+    "allowed_senders": [
+        "allowed-email1@example.com",
+        "allowed-email2@example.com"
+    ]
+}
+```
+
+8. Configure your LLM settings:
+```bash
+cp llm_config.example.json llm_config.json
+```
+
+9. Edit `llm_config.json` to choose between local LLM or OpenAI:
+```json
+{
+    "model_type": "local",  // or "openai"
+    "local_model": {
+        "base_url": "http://localhost:1234/v1",
+        "model": "llama"
+    },
+    "system_prompt": "You are a professional email assistant..."
+}
+```
+
+## Using Local LLM
+
+1. Download and install LM Studio
+2. Start your local server in LM Studio
+3. Make sure your server is running on http://localhost:1234
+4. Set "model_type": "local" in llm_config.json
+
+## Using OpenAI
+
+1. Ensure you have a valid OpenAI API key
+2. Set "model_type": "openai" in llm_config.json
+3. Add your OpenAI API key to email_config.json
+
 ## Usage
 
 1. Start the email assistant:
@@ -72,66 +120,26 @@ python main.py
 2. The assistant will:
    - Monitor your inbox for new emails
    - Process emails from whitelisted senders
-   - Generate AI-powered responses
+   - Generate AI-powered responses using the configured model
    - Send automated replies
    - Log all activities to `email_assistant.log`
 
 3. To stop the assistant, press `Ctrl+C`
 
-## Configuration
+## Configuration Files
 
-### Email Settings
+### email_config.json
+- Email credentials and server settings
+- OpenAI API key (if using OpenAI)
+- Response rules for the AI
 
-- `email_address`: Your email address
-- `email_password`: Your email password or app-specific password
-- `imap_server`: IMAP server address
-- `imap_port`: IMAP port (usually 993 for SSL)
-- `smtp_server`: SMTP server address
-- `smtp_port`: SMTP port (usually 465 for SSL or 587 for TLS)
+### whitelist_config.json
+- List of email addresses allowed to receive automated responses
 
-### AI Response Settings
-
-The assistant uses GPT to generate responses. You can customize the response behavior by modifying the `response_rules` in the config file.
-
-### Whitelist Configuration
-
-By default, the assistant only responds to emails from whitelisted addresses. To configure the whitelist:
-
-1. Create your whitelist configuration file:
-```bash
-cp whitelist_config.example.json whitelist_config.json
-```
-
-2. Edit `whitelist_config.json` with your allowed email addresses:
-```json
-{
-    "allowed_senders": [
-        "allowed-email1@example.com",
-        "allowed-email2@example.com"
-    ]
-}
-```
-
-The assistant will only process and respond to emails from addresses in this list.
-
-## Testing
-
-The repository includes several test scripts:
-
-1. Test basic email functionality:
-```bash
-python test_basic_email.py
-```
-
-2. Test connection settings:
-```bash
-python test_connection.py
-```
-
-3. Test email monitoring:
-```bash
-python test_monitor.py
-```
+### llm_config.json
+- Choice of AI model (local or OpenAI)
+- Local model settings
+- System prompt for the AI
 
 ## Project Structure
 
@@ -142,31 +150,34 @@ email_assistant/
 ├── email_monitor.py        # Email monitoring system
 ├── content_processor.py    # AI response generation
 ├── requirements.txt        # Python dependencies
-├── email_config.json       # Configuration file
+├── email_config.json       # Email configuration
+├── whitelist_config.json   # Allowed senders list
+├── llm_config.json        # LLM configuration
 └── tests/
     ├── test_basic_email.py
     ├── test_connection.py
     └── test_monitor.py
 ```
 
+## Security Notes
+
+- Never commit configuration files with real credentials
+- Use environment variables in production
+- Consider using app-specific passwords
+- Regularly rotate your API keys and passwords
+- Keep your local LLM server secure
+
 ## Contributing
 
 1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
+2. Create your feature branch
+3. Commit your changes
+4. Push to the branch
 5. Open a Pull Request
 
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Security Note
-
-- Never commit your `email_config.json` with real credentials
-- Use environment variables or secure secret management in production
-- Consider using app-specific passwords when available
-- Regularly rotate your API keys and passwords
 
 ## Support
 

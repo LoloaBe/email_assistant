@@ -1,6 +1,7 @@
 # Core dependencies
 openai>=1.0.0
 python-dotenv>=1.0.0
+requests>=2.31.0
 
 # Email handling
 secure-smtplib>=0.1.1
