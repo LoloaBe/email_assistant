@@ -1,0 +1,21 @@
+{
+    "email_address": "your-email@example.com",
+    "email_password": "your-password",
+
+    "imap_server": "imap.your-provider.com",
+    "imap_port": 993,
+    "imap_use_ssl": true,
+
+    "smtp_server": "smtp.your-provider.com",
+    "smtp_port": 465,
+    "smtp_use_ssl": true,
+
+    "openai_api_key": "your-openai-api-key",
+    
+    "response_rules": [
+        "Always start with a warm greeting",
+        "Use a professional but friendly tone",
+        "Address the sender's concerns specifically",
+        "End with a polite signature"
+    ]
+}
