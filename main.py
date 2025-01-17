@@ -19,8 +19,14 @@ class EmailAssistant:
             self.processor = ContentProcessor(self.config)
             self.handler = EmailHandler(self.config)
             
-            # Whitelist of allowed sender emails
-            self.allowed_senders = ["l.criscuolo@gmx.com"]
+            # Load whitelist configuration
+            try:
+                with open('whitelist_config.json', 'r') as f:
+                    whitelist_config = json.load(f)
+                self.allowed_senders = whitelist_config.get('allowed_senders', [])
+            except Exception as e:
+                logging.error(f"Error loading whitelist configuration: {str(e)}")
+                self.allowed_senders = []
             
             logging.info("Email Assistant initialized successfully")
         except Exception as e:

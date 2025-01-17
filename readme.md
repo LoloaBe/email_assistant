@@ -95,11 +95,24 @@ The assistant uses GPT to generate responses. You can customize the response beh
 
 ### Whitelist Configuration
 
-By default, the assistant only responds to emails from whitelisted addresses. To modify the whitelist, edit the `allowed_senders` list in `main.py`:
+By default, the assistant only responds to emails from whitelisted addresses. To configure the whitelist:
 
-```python
-self.allowed_senders = ["allowed-email@example.com"]
+1. Create your whitelist configuration file:
+```bash
+cp whitelist_config.example.json whitelist_config.json
 ```
+
+2. Edit `whitelist_config.json` with your allowed email addresses:
+```json
+{
+    "allowed_senders": [
+        "allowed-email1@example.com",
+        "allowed-email2@example.com"
+    ]
+}
+```
+
+The assistant will only process and respond to emails from addresses in this list.
 
 ## Testing
 
