@@ -5,10 +5,12 @@ Continuously monitors emails and responds only to whitelisted senders.
 
 import time
 import logging
+import json
 from email_handler import EmailConfig, EmailHandler
 from email_monitor import EmailMonitor
 from content_processor import ContentProcessor
 import re
+import os
 
 class EmailAssistant:
     def __init__(self, config_path: str = "email_config.json"):
@@ -20,13 +22,20 @@ class EmailAssistant:
             self.handler = EmailHandler(self.config)
             
             # Load whitelist configuration
-            try:
-                with open('whitelist_config.json', 'r') as f:
+            whitelist_path = 'whitelist_config.json'
+            if not os.path.exists(whitelist_path):
+                logging.warning(f"Whitelist configuration file not found at {whitelist_path}")
+                logging.info("Creating default whitelist configuration...")
+                default_whitelist = {
+                    "allowed_senders": ["l.criscuolo@gmx.com"]
+                }
+                with open(whitelist_path, 'w') as f:
+                    json.dump(default_whitelist, f, indent=4)
+                self.allowed_senders = default_whitelist["allowed_senders"]
+            else:
+                with open(whitelist_path, 'r') as f:
                     whitelist_config = json.load(f)
                 self.allowed_senders = whitelist_config.get('allowed_senders', [])
-            except Exception as e:
-                logging.error(f"Error loading whitelist configuration: {str(e)}")
-                self.allowed_senders = []
             
             logging.info("Email Assistant initialized successfully")
         except Exception as e:
