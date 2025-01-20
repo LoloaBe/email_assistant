@@ -3,6 +3,10 @@ Test script for AI email response generation.
 """
 
 import logging
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
+
 from src.core.email_handler import EmailConfig
 from src.ai.content_processor import ContentProcessor
 from datetime import datetime
@@ -15,10 +19,10 @@ logging.basicConfig(
 def test_ai_response():
     try:
         # Load configuration
-        config = EmailConfig()
+        config = EmailConfig("config/email_config.json")  # Updated path
         processor = ContentProcessor(config)
         
-        # Test email scenarios
+        # Rest of your test code stays exactly the same
         test_emails = [
             {
                 "from": "client@example.com",
@@ -66,6 +70,7 @@ def test_ai_response():
         
     except Exception as e:
         logging.error(f"Failed to test AI response: {str(e)}")
+        raise  # Added to see the full error trace
 
 if __name__ == "__main__":
     test_ai_response()

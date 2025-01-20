@@ -3,8 +3,8 @@ Test script for email monitoring functionality with detailed logging.
 """
 
 import logging
-from email_handler import EmailConfig
-from email_monitor import EmailMonitor
+from src.core.email_handler import EmailConfig
+from src.core.email_monitor import EmailMonitor
 import time
 
 logging.basicConfig(

@@ -4,16 +4,17 @@ Continuously monitors emails and responds only to whitelisted senders.
 """
 
 import time
+from src.core.email_handler import EmailConfig, EmailHandler
+from src.core.email_monitor import EmailMonitor
+from src.ai.content_processor import ContentProcessor
 import logging
 import json
-from src.core.email_handler import EmailConfig, EmailHandler
-from email_monitor import EmailMonitor
-from content_processor import ContentProcessor
-import re
 import os
+import re
+
 
 class EmailAssistant:
-    def __init__(self, config_path: str = "email_config.json"):
+    def __init__(self, config_path: str = "config/email_config.json"):
         """Initialize the email assistant application."""
         try:
             self.config = EmailConfig(config_path)
@@ -22,13 +23,14 @@ class EmailAssistant:
             self.handler = EmailHandler(self.config)
             
             # Load whitelist configuration
-            whitelist_path = 'whitelist_config.json'
+            whitelist_path = 'config/whitelist_config.json'
             if not os.path.exists(whitelist_path):
                 logging.warning(f"Whitelist configuration file not found at {whitelist_path}")
                 logging.info("Creating default whitelist configuration...")
                 default_whitelist = {
                     "allowed_senders": ["l.criscuolo@gmx.com"]
                 }
+                os.makedirs('config', exist_ok=True)
                 with open(whitelist_path, 'w') as f:
                     json.dump(default_whitelist, f, indent=4)
                 self.allowed_senders = default_whitelist["allowed_senders"]
@@ -108,11 +110,12 @@ class EmailAssistant:
 
 def main():
     # Configure logging
+    os.makedirs('logs', exist_ok=True)
     logging.basicConfig(
         level=logging.INFO,
         format='%(asctime)s - %(levelname)s - %(message)s',
         handlers=[
-            logging.FileHandler('email_assistant.log'),
+            logging.FileHandler('logs/email_assistant.log'),
             logging.StreamHandler()
         ]
     )

@@ -1,6 +1,7 @@
-# Configuration files with sensitive data
-email_config.json
-whitelist_config.json
+# Configurations
+config/email_config.json
+config/whitelist_config.json
+config/llm_config.json
 
 # Python
 __pycache__/
@@ -30,8 +31,7 @@ ENV/
 env/
 
 # Logs
-*.log
-logs/
+logs/*.log
 
 # IDE specific files
 .idea/

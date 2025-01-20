@@ -2,23 +2,25 @@
 Enhanced content processor module with business knowledge base integration.
 """
 
+from src.core.email_handler import EmailConfig
 import openai
 import logging
-from typing import Dict, Optional
+from typing import Dict
 import json
 import requests
 import os
-from src.core.email_handler import EmailConfig
 
 class ContentProcessor:
-    def __init__(self, config: EmailConfig, business_config_path: str = "business_config.json"):
-        """Initialize the content processor with configuration and knowledge base."""
+    def __init__(self, config: EmailConfig):
+        """Initialize the content processor."""
         self.config = config
         openai.api_key = config.openai_api_key
         
+        business_config_path = 'config/business_config.json'
+        
         # Load LLM configuration
         try:
-            with open('llm_config.json', 'r') as f:
+            with open('config/llm_config.json', 'r') as f:
                 self.llm_config = json.load(f)
         except Exception as e:
             logging.error(f"Error loading LLM configuration: {str(e)}")

@@ -8,13 +8,13 @@ import email
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import smtplib
-from typing import List, Dict, Optional
+from typing import List, Dict
 import json
 import logging
 from datetime import datetime
-
+import os
 class EmailConfig:
-    def __init__(self, config_path: str = "email_config.json"):
+    def __init__(self, config_path: str = "config/email_config.json"):
         """Initialize email configuration from JSON file."""
         try:
             with open(config_path, 'r') as f:

@@ -3,7 +3,7 @@ Simple script to test sending an email through IONOS.
 """
 
 import logging
-from src.core.email_handler import EmailConfig, EmailHandler
+from email_handler import EmailConfig, EmailHandler
 from datetime import datetime
 
 logging.basicConfig(

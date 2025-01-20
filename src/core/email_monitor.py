@@ -8,6 +8,7 @@ from typing import Dict, List
 import logging
 from src.core.email_handler import EmailConfig
 
+
 class EmailMonitor:
     def __init__(self, config: EmailConfig):
         """Initialize email monitor with configuration."""
