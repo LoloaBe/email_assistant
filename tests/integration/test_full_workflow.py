@@ -3,8 +3,14 @@ Test script for email monitoring functionality.
 """
 
 import logging
-from email_handler import EmailConfig
-from email_monitor import EmailMonitor
+import sys
+import os
+
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
+sys.path.insert(0, project_root)
+
+from src.core.email_handler import EmailConfig
+from src.core.email_monitor import EmailMonitor
 import time
 
 logging.basicConfig(

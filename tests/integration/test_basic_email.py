@@ -3,6 +3,12 @@ Test script for basic email functionality.
 """
 
 import logging
+import sys
+import os
+
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
+sys.path.insert(0, project_root)
+
 from src.core.email_handler import EmailConfig, EmailHandler
 from src.core.email_monitor import EmailMonitor
 from src.ai.content_processor import ContentProcessor

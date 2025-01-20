@@ -5,6 +5,13 @@ import imaplib
 import smtplib
 import json
 import logging
+import os
+import sys
+
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
+sys.path.insert(0, project_root)
+
+from src.core.email_handler import EmailConfig
 
 logging.basicConfig(
     level=logging.INFO,

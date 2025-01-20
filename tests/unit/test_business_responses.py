@@ -4,8 +4,14 @@ Tests different types of inquiries to verify proper context inclusion.
 """
 
 import logging
-from email_handler import EmailConfig
-from content_processor import ContentProcessor
+import os
+import sys
+
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
+sys.path.insert(0, project_root)
+
+from src.core.email_handler import EmailConfig
+from src.ai.content_processor import ContentProcessor
 from datetime import datetime
 
 logging.basicConfig(
@@ -16,7 +22,7 @@ logging.basicConfig(
 def test_responses():
     try:
         # Initialize configurations
-        config = EmailConfig()
+        config = EmailConfig("config/email_config.json")
         processor = ContentProcessor(config)
         
         # Test cases covering different scenarios

@@ -5,7 +5,9 @@ Test script for AI email response generation.
 import logging
 import sys
 import os
-sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
+
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
+sys.path.insert(0, project_root)
 
 from src.core.email_handler import EmailConfig
 from src.ai.content_processor import ContentProcessor
@@ -19,7 +21,7 @@ logging.basicConfig(
 def test_ai_response():
     try:
         # Load configuration
-        config = EmailConfig("config/email_config.json")  # Updated path
+        config = EmailConfig("config/email_config.json")
         processor = ContentProcessor(config)
         
         # Rest of your test code stays exactly the same
