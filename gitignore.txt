@@ -2,6 +2,7 @@
 config/email_config.json
 config/whitelist_config.json
 config/llm_config.json
+config/business_config.json
 
 # Python
 __pycache__/
