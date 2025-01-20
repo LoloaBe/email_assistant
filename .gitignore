@@ -1,7 +1,8 @@
 # Configuration files with sensitive data
-email_config.json
-whitelist_config.json
-email_assistant.log
+logs/
+config/business_config.json
+config/whitelist_config.json
+config/email_config.json
 
 # Python
 __pycache__/

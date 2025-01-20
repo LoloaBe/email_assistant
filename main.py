@@ -7,8 +7,8 @@ import time
 import logging
 import json
 from src.core.email_handler import EmailConfig, EmailHandler
-from email_monitor import EmailMonitor
-from content_processor import ContentProcessor
+from src.core.email_monitor import EmailMonitor
+from src.ai.content_processor import ContentProcessor
 import re
 import os
 
