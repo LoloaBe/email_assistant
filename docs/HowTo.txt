@@ -1,0 +1,7 @@
+How to use it.
+
+The yaml structure must remain the same, so:
+
+Make a copy of the template_business_config.yaml
+Add or remove or change the new file.
+Rename the new file “business_config.yaml” and move it to ../config/, replace the existing file

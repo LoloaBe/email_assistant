@@ -1,0 +1,52 @@
+name: "Hautzentrum Berlin"
+
+contact:
+  phone: "(030) 823 40 24"
+  website: "https://hautzentrum-berlin.de"
+
+specializations:
+  - Dermatology
+  - Allergology
+  - Aesthetic Medicine
+
+services:
+  general_dermatology:
+    acne: "Customized therapies for mild to severe acne"
+    inflammatory: "Treatment of neurodermatitis, psoriasis, acne inversa"
+  
+  skin_cancer:
+    screening: "Early detection and prevention"
+    oncology: "Tumor removal and post-operative care"
+  
+  aesthetic:
+    rejuvenation: "Skin rejuvenation and wrinkle reduction"
+    laser: "Removal of vascular changes and cosmetic skin irregularities"
+  
+  specialized:
+    hyperhidrosis: "Treatment for excessive sweating"
+    hair_loss: "Diagnosis and treatment of hair and scalp conditions"
+    vascular: "Vein consultations and spider vein removal"
+  
+  allergology: "Diagnostics and therapy for hay fever and insect venom allergies"
+
+staff:
+  - name: "Dr. med. Frank Bachmann"
+    specialties:
+      - "Chronic Skin Diseases"
+      - "Systemic Therapy"
+      - "Aesthetic Dermatology"
+      - "Laser Medicine"
+  
+  - name: "Dott. Valentina Siddi"
+    specialties:
+      - "Dermatochirurgie"
+      - "Dermato-Oncology"
+      - "Laser Medicine"
+
+policies:
+  new_patients_2024_2025: "No new patients for statutory health insurance. Specialized consultations (e.g., hair loss, hyperhidrosis) remain available."
+
+additional: |
+  Opening Hours: Mon-Fri 9:00-17:00
+  Languages: German, English, Italian
+  Parking: Available in front of the building 

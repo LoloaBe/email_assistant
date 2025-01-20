@@ -5,7 +5,7 @@ Enhanced content processor module with business knowledge base integration.
 from src.core.email_handler import EmailConfig
 import openai
 import logging
-from typing import Dict
+from typing import Dict, List, Union
 import json
 import requests
 import os
@@ -41,19 +41,67 @@ class ContentProcessor:
 
     def _enhance_system_prompt(self, base_prompt: str) -> str:
         """Enhance the system prompt with business knowledge."""
+        # First check if services exist and have the expected structure
+        services = self.business_info.get('services', {})
+        
         business_context = f"""
-        You are responding as a representative of {self.business_info['name']}.
-        Location: {self.business_info['location']}
-        Contact: Phone {self.business_info['contact']['phone']}
+        You are responding as a representative of {self.business_info.get('name', '')}.
+        Contact: Phone {self.business_info.get('contact', {}).get('phone', '')}, 
+        Website: {self.business_info.get('contact', {}).get('website', '')}
 
         Key Information:
-        - We specialize in: {', '.join(self.business_info['specializations'])}
-        - Current policy: {self.business_info['policies']['new_patients_2024_2025']}
-        - Our staff: {', '.join(d['name'] for d in self.business_info['staff'])}
+        - We specialize in: {', '.join(self.business_info.get('specializations', []))}
+        
+        Our Services:
+        """
+        
+        # Add services if they exist
+        if services:
+            business_context += f"""
+            - General Dermatology: {self._format_services(services.get('general_dermatology', {}))}
+            - Skin Cancer: {self._format_services(services.get('skin_cancer', {}))}
+            - Aesthetic: {self._format_services(services.get('aesthetic', {}))}
+            - Specialized: {self._format_services(services.get('specialized', {}))}
+            - Allergology: {services.get('allergology', '')}
+            """
+
+        business_context += f"""
+        Staff:
+        {self._format_staff(self.business_info.get('staff', []))}
+
+        Policies:
+        {self._format_policies(self.business_info.get('policies', {}))}
+
+        Additional Information:
+        {self.business_info.get('additional', '')}
 
         Please use this information to provide accurate responses about our services and policies.
         """
         return base_prompt + "\n" + business_context
+
+    def _format_services(self, services: Union[Dict, str]) -> str:
+        """Format services that can be either a dictionary or a string."""
+        if isinstance(services, str):
+            return services
+        if not services:
+            return ""
+        return '; '.join([f"{key}: {value}" for key, value in services.items()])
+
+    def _format_staff(self, staff: List[Dict]) -> str:
+        """Format staff list into readable text."""
+        if not staff:
+            return "No staff information available."
+        return '\n'.join([
+            f"- {member['name']} (Specialties: {', '.join(member['specialties'])})"
+            for member in staff
+        ])
+
+    def _format_policies(self, policies: Dict) -> str:
+        """Format policies dictionary into readable text."""
+        if not policies:
+            return "No specific policies."
+        return '\n'.join([f"- {key.replace('_', ' ').title()}: {value}" 
+                         for key, value in policies.items()])
 
     def _categorize_email_intent(self, email_content: Dict) -> str:
         """Categorize the main intent of the email for targeted response."""
@@ -79,19 +127,32 @@ class ContentProcessor:
         contexts = {
             'appointment': f"""
                 Booking Information:
-                - Phone: {self.business_info['contact']['phone']}
-                - Current Policy: {self.business_info['policies']['new_patients_2024_2025']}
+                - Contact: {self.business_info['contact']['phone']}
+                - Website: {self.business_info['contact']['website']}
+                {self._format_policies(self.business_info['policies'])}
+                {self.business_info['additional']}
             """,
             'services': f"""
                 Our Services:
-                - General Dermatology: {self.business_info['services']['general_dermatology']}
-                - Aesthetic Treatments: {self.business_info['services']['aesthetic']}
-                - Specialized Services: {self.business_info['services']['specialized']}
+                General Dermatology:
+                {self._format_services(self.business_info['services']['general_dermatology'])}
+                
+                Aesthetic Treatments:
+                {self._format_services(self.business_info['services']['aesthetic'])}
+                
+                Specialized Services:
+                {self._format_services(self.business_info['services']['specialized'])}
+                
+                Allergology:
+                {self.business_info['services']['allergology']}
             """,
             'emergency': f"""
                 For emergencies:
                 - Contact us at {self.business_info['contact']['phone']}
-                - Location: {self.business_info['location']}
+                - Website: {self.business_info['contact']['website']}
+                
+                Our Staff:
+                {self._format_staff(self.business_info['staff'])}
             """
         }
         return contexts.get(intent, "")
