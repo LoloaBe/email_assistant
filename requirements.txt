@@ -1,26 +1,30 @@
-# Core dependencies
+# AI/LLM
 openai>=1.0.0
-python-dotenv>=1.0.0
-requests>=2.31.0
 
 # Email handling
 secure-smtplib>=0.1.1
-imapclient>=2.3.1  # Added for IMAP support
-email-validator>=2.0.0  # Added for email validation
-python-dateutil>=2.8.2  # Added for date handling
-beautifulsoup4>=4.12.2  # Added for HTML parsing
+imapclient>=2.3.1
+email-validator>=2.0.0
 
-# Typing support
-typing-extensions>=4.7.0
-
-# Date handling
+# Parsing and data handling
+python-dateutil>=2.8.2
+beautifulsoup4>=4.12.2
 pytz>=2023.3
 
-# Logging (optional but recommended for production)
+# HTTP and requests
+requests>=2.31.0
+
+# Environment and configuration
+python-dotenv>=1.0.0
+
+# Typing
+typing-extensions>=4.7.0
+
+# Logging
 python-json-logger>=2.0.7
 
-# Testing (development dependencies)
-pytest>=7.4.0
-pytest-cov>=4.1.0
-black>=23.7.0  # for code formatting
-flake8>=6.1.0  # for linting
+# Development dependencies
+pytest>=7.4.0  # Testing
+pytest-cov>=4.1.0  # Test coverage
+black>=23.7.0  # Code formatting
+flake8>=6.1.0  # Code linting
